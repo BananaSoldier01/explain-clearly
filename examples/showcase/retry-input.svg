@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1440" viewBox="0 0 1080 1440">
+<title>重试：为什么这么多机制？ / 专业输入 · 官方资料提炼</title>
+<desc>文字演示图卡；专业输入与真实模型输出分别标注；不是聊天窗口截图。</desc>
+<rect width="1080" height="1440" fill="#f3f6f4"/>
+<text x="64" y="76" font-family="Arial Unicode MS,Heiti TC,sans-serif" font-size="28" font-weight="bold" fill="#17675e">explain-clearly</text>
+<text x="64" y="150" font-family="Arial Unicode MS,Heiti TC,sans-serif" font-size="50" font-weight="bold" fill="#18343b">重试：为什么这么多机制？</text>
+<text x="64" y="211" font-family="Arial Unicode MS,Heiti TC,sans-serif" font-size="31" font-weight="bold" fill="#566773">专业输入 · 官方资料提炼</text>
+<rect x="64" y="260" width="952" height="619.2" rx="22" fill="#ffffff" stroke="#cfdbd5"/>
+<rect x="64" y="288" width="5" height="563.2" fill="#566773"/>
+<text x="94" y="312" font-family="Arial Unicode MS,Heiti TC,sans-serif" font-size="36" font-weight="normal" fill="#19343c">某 AWS 客户端使用 standard retry mode。可重试失败</text>
+<text x="94" y="363.12" font-family="Arial Unicode MS,Heiti TC,sans-serif" font-size="36" font-weight="normal" fill="#19343c">按 exponential backoff 和 jitter 等待，transient error 与</text>
+<text x="94" y="414.24" font-family="Arial Unicode MS,Heiti TC,sans-serif" font-size="36" font-weight="normal" fill="#19343c">throttling 可能采用不同等待策略；retry quota 用 token</text>
+<text x="94" y="465.36" font-family="Arial Unicode MS,Heiti TC,sans-serif" font-size="36" font-weight="normal" fill="#19343c">bucket 限制持续失败时的重试流量。对支持 client token</text>
+<text x="94" y="516.48" font-family="Arial Unicode MS,Heiti TC,sans-serif" font-size="36" font-weight="normal" fill="#19343c">的 EC2 操作，还要在同一幂等范围内，保持相同 token</text>
+<text x="94" y="567.6" font-family="Arial Unicode MS,Heiti TC,sans-serif" font-size="36" font-weight="normal" fill="#19343c">和参数重试，以避免已完成操作被重复执行。</text>
+<text x="94" y="638.72" font-family="Arial Unicode MS,Heiti TC,sans-serif" font-size="36" font-weight="normal" fill="#19343c">普通提问：</text>
+<text x="94" y="689.84" font-family="Arial Unicode MS,Heiti TC,sans-serif" font-size="36" font-weight="normal" fill="#19343c">这里都在处理重试，为什么又有退避、抖动、额度和幂</text>
+<text x="94" y="740.96" font-family="Arial Unicode MS,Heiti TC,sans-serif" font-size="36" font-weight="normal" fill="#19343c">等？它们各自防什么问题？</text>
+<text x="94" y="792.08" font-family="Arial Unicode MS,Heiti TC,sans-serif" font-size="36" font-weight="normal" fill="#19343c">请只用文字回答。</text>
+<line x1="64" y1="1288" x2="1016" y2="1288" stroke="#ccdad2"/>
+<text x="64" y="1323" font-family="Arial Unicode MS,Heiti TC,sans-serif" font-size="23" font-weight="normal" fill="#53676b">这是专业输入，不是未加载 Skill 的回复。</text>
+<text x="64" y="1357" font-family="Arial Unicode MS,Heiti TC,sans-serif" font-size="23" font-weight="normal" fill="#53676b">执行时另提供冻结来源摘记；完整记录见文字示例。</text>
+</svg>

@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>explain-clearly · 演示</title>
+<style>
+:root{color-scheme:light;--ink:#1c343b;--muted:#54666c;--paper:#fff;--bg:#f4f6f3;--line:#d6dfda;--green:#12675e;--blue:#305ca7}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.75}main{max-width:1100px;margin:auto;padding:48px 28px 32px}p,h1,h2,h3{margin-top:0}h1{font-size:clamp(2rem,5vw,3.8rem);line-height:1.2;letter-spacing:-.035em;max-width:850px;margin-bottom:22px}h2{font-size:1.6rem;line-height:1.4;margin-bottom:16px}h3{font-size:1.22rem;line-height:1.5;margin-bottom:12px}a{color:var(--green);text-underline-offset:4px;overflow-wrap:anywhere}a:focus-visible,summary:focus-visible{outline:3px solid #a05712;outline-offset:5px}.label{display:inline-block;font-size:.85rem;letter-spacing:.08em;font-weight:700;color:var(--green);margin-bottom:18px}.lede{font-size:1.16rem;color:var(--muted);max-width:830px}.links{display:flex;gap:14px;flex-wrap:wrap;margin:24px 0 0}.button{display:inline-block;background:var(--green);color:white;text-decoration:none;border-radius:9px;padding:10px 18px;font-weight:650}.secondary{background:white;color:var(--green);border:1px solid var(--line)}section{margin-top:38px}.flow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:24px 0}.flow article{padding:20px 22px;border:1px solid var(--line);background:white;border-radius:12px}.number{display:block;font-size:.8rem;color:var(--green);font-weight:750;margin-bottom:6px}.flow p{font-size:.95rem;color:var(--muted);margin:0}.example{padding:24px 28px;border-left:4px solid var(--green);background:#eaf3ee;border-radius:0 12px 12px 0}.example p{margin-bottom:13px}.example p:last-child{margin-bottom:0}.speaker{font-weight:750}.small{font-size:.87rem;color:var(--muted)}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}.demo{background:white;border:1px solid var(--line);border-radius:16px;overflow:hidden;min-width:0;display:flex;flex-direction:column}.thumb{display:block;border-bottom:1px solid var(--line);background:#eef2f4}.thumb img{display:block;width:100%;height:245px;object-fit:cover;object-position:top}.content{padding:25px;display:flex;flex-direction:column;flex:1}.content p{color:var(--muted);margin-bottom:14px}.content ol{padding-left:22px;margin-top:0;margin-bottom:22px}.content .button{align-self:flex-start;margin-top:auto}.blue .button{background:var(--blue)}.blue h3{color:var(--blue)}.caption{margin:8px 0 0;font-size:.82rem;color:var(--muted)}details{padding:20px 24px;border:1px solid var(--line);background:white;border-radius:12px;margin-top:24px}summary{cursor:pointer;font-weight:700}.details-content{padding-top:14px}details ul{padding-left:22px;margin-bottom:0}.note{padding:16px 20px;background:#fff5e8;border-left:4px solid #a45b1c;border-radius:0 9px 9px 0}.more{display:flex;flex-wrap:wrap;gap:16px;padding:18px 0}footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--line);font-size:.86rem;color:var(--muted)}@media(max-width:720px){main{padding:28px 18px}.flow,.grid{grid-template-columns:1fr}.lede{font-size:1.05rem}.example{padding:20px}.content{padding:22px}.thumb img{height:210px}}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<main>
+<header>
+<span class="label">explain-clearly</span>
+<h1>把专业内容，<br>讲成你能理解的话。</h1>
+<p class="lede">先把核心意思、关键过程和条件讲清楚。需要看关系或变化时，再用图解或交互网页，让抽象内容具体起来。</p>
+<nav class="links" aria-label="页面导航"><a class="button" href="#demos">体验两个概念演示</a><a class="button secondary" href="https://github.com/BananaSoldier01/explain-clearly#readme">阅读使用说明</a></nav>
+</header>
+
+<section aria-labelledby="workflow">
+<h2 id="workflow">用普通问题开始</h2>
+<div class="flow">
+<article><span class="number">01 · 先解释</span><h3>直接给易懂的首答</h3><p>术语随文解释，用具体例子保留机制与条件，不要求你先写优化提示词。</p></article>
+<article><span class="number">02 · 判断需要</span><h3>文字够用，就结束</h3><p>图或网页能解决具体理解障碍时，说明用途并征得对应同意。</p></article>
+<article><span class="number">03 · 继续理解</span><h3>用合适的图或交互</h3><p>同意后直接继续。页面围绕问题选择结构，不要求每个主题套同一模板。</p></article>
+</div>
+<div class="example">
+<p><span class="speaker">你问：</span>RAG 是什么？为什么找到资料以后还会答错？</p>
+<p><span class="speaker">先解释：</span>RAG 就是先从资料库找相关内容，再把问题和选出的资料一起交给模型写答案。资料可能过时，也可能只有主题相关；模型还可能忽略或读错条件。所以找到资料不等于回答一定可靠。</p>
+<p><span class="speaker">有需要时再建议：</span>一个能切换“找到了哪些资料、模型怎样使用资料”的网页，可以把两步分别可能出错的位置展示出来。你需要这个网页吗？</p>
+</div>
+<p class="caption">上面是人工编写的用法示例，展示文字到可视化的流程，不是原始测试对话。明确要求 HTML 时无需再次确认。</p>
+</section>
+
+<section aria-labelledby="demos">
+<h2 id="demos">把关系和变化，点开看</h2>
+<p>两页使用不同结构：一页看流程和情景，一页看节点关系与权重。它们是演示作品，不是 Skill 必须套用的模板。</p>
+<div class="grid">
+<article class="demo">
+<a class="thumb" href="rag.html" aria-label="打开 RAG 互动演示"><img src="screenshots/rag-1280.png" width="1280" height="2246" alt="RAG 演示既有检查截图：整理资料、检索、交接与生成四个步骤" loading="lazy"></a>
+<div class="content"><h3>RAG：有资料，为什么还会答错？</h3><p>用两份虚构公告，把“有没有找到正确资料”和“有没有正确使用资料”分开观察。</p><ol><li>点四个流程步骤，看看每一步传递什么。</li><li>保持两份公告都找到，只改变模型使用资料的方式。</li><li>再只交出旧公告，观察证据缺口。</li></ol><a class="button" href="rag.html">打开 RAG 演示 →</a></div>
+</article>
+<article class="demo blue">
+<a class="thumb" href="attention.html" aria-label="打开自注意力互动演示"><img src="screenshots/attention-1280.png" width="1280" height="2725" alt="自注意力演示既有检查截图：词位置、查询节点、连线与权重" loading="lazy"></a>
+<div class="content"><h3>自注意力：一个词怎样带入上下文？</h3><p>点一个位置，观察它怎样匹配其他位置、分配权重，再组合那些位置的信息。</p><ol><li>默认看“它”，观察各位置的权重。</li><li>点“小猫”，切换为“只看自己和前文”。</li><li>观察后面的节点被屏蔽，剩余权重重新分配。</li></ol><a class="button" href="attention.html">打开自注意力演示 →</a></div>
+</article>
+</div>
+<p class="caption">点击缩略图或按钮，即可打开交互演示。</p>
+<p class="note">RAG 页面切换的是预写情景，自注意力页面计算的是手工教学向量。两者没有真实模型调用，不能用于判断某个实际系统的准确率、性能或内部推理原因。</p>
+</section>
+
+<details>
+<summary>这些演示检查到了什么？</summary>
+<div class="details-content"><p>原始两页在 Chromium 中共通过 87 条操作与计算断言，覆盖切换、状态同步、重置、键盘、窄屏、无脚本与断网内容操作。</p><p>本次导出只整理来源和验证说明，交互脚本、样式保持相同；导出后的页面与新总览页只做静态检查，未重新浏览器运行。</p><p>技术检查和模型评审不能代替真人理解体验，也没有证明 Agent 自动触发或所有后续生成物都正确。<a href="https://github.com/BananaSoldier01/explain-clearly/blob/main/VERIFICATION.md">查看完整验证范围</a>。</p></div>
+</details>
+<nav class="more" aria-label="其他示例"><a href="https://github.com/BananaSoldier01/explain-clearly/blob/main/examples/text.md">文字解释示例</a><a href="https://github.com/BananaSoldier01/explain-clearly/blob/main/examples/diagram.md">简单图示</a><a href="interactive.html">缓存教学例子</a><a href="https://github.com/BananaSoldier01/explain-clearly/blob/main/RELEASE_NOTES.md">首版说明</a></nav>
+<footer>explain-clearly · <a href="https://github.com/BananaSoldier01/explain-clearly/blob/main/LICENSE">MIT License</a> · 演示页面不需要账号或 API 密钥。引用资料的权利仍属于各自权利人。</footer>
+</main>
+</body>
+</html>

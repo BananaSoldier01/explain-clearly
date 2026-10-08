@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23126b5d%27/%3E%3C/svg%3E">
+<title>缓存如何影响平均延迟 · 教学模拟</title>
+<style>
+:root{color-scheme:light;--ink:#153735;--muted:#496560;--accent:#126b5d;--bg:#f3f6f1;--line:#c6d4ce;--card:#fff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.7}main{max-width:1120px;margin:auto;padding:48px 28px 30px}a{color:#075d99}h1{font-size:clamp(1.85rem,4vw,2.9rem);line-height:1.25;letter-spacing:-.04em;margin:18px 0}h2{font-size:1.2rem;margin:0 0 16px}p{margin:12px 0}header{max-width:780px;margin-bottom:30px}.tag{display:inline-block;border:1px solid var(--accent);color:var(--accent);padding:4px 12px;border-radius:6px;font-size:.9rem}.lede{color:var(--muted);font-size:1.1rem}.layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:24px}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:28px;min-width:0}.controls fieldset{border:0;padding:0;margin:0}.controls legend{font-weight:700;margin-bottom:18px}.control{margin-bottom:24px}label{display:block;font-weight:600}label .value{float:right;font-weight:700;color:var(--accent)}input[type=range]{display:block;width:100%;height:30px;margin:12px 0 4px;accent-color:var(--accent)}.limits{display:flex;justify-content:space-between;color:var(--muted);font-size:.85rem}.hint{color:var(--muted);font-size:.9rem}button{background:var(--accent);color:#fff;border:0;border-radius:8px;padding:11px 18px;font:inherit;cursor:pointer}button:hover{background:#0a5449}:focus-visible{outline:3px solid #954e12;outline-offset:4px}.number{font-size:clamp(2.5rem,6vw,4rem);font-weight:750;line-height:1.2;margin:18px 0 6px;font-variant-numeric:tabular-nums}.unit{font-size:1rem;font-weight:500}.note{border-left:4px solid var(--accent);padding:8px 14px;background:#edf6f1;font-size:.95rem}.bar-row{margin:22px 0}.bar-label{display:flex;justify-content:space-between;gap:12px;font-size:.9rem}.track{height:14px;border-radius:4px;background:#ecf0ed;margin-top:8px;overflow:hidden}.bar{height:100%;background:var(--accent);width:0}.baseline{background:#748580}.formula{font-family:ui-monospace,monospace;background:#f3f5f3;padding:12px;border-radius:8px;overflow-wrap:anywhere;font-size:.9rem}details{margin-top:24px;padding:24px 28px;border:1px solid var(--line);border-radius:18px;background:#fff}summary{cursor:pointer;font-weight:700}footer{color:var(--muted);font-size:.88rem;padding:20px 0}noscript p{padding:16px;border:2px solid #954e12;border-radius:8px}a,summary{overflow-wrap:anywhere}[hidden]{display:none!important}@media(max-width:720px){main{padding:24px 16px}.layout{grid-template-columns:1fr}.card{padding:22px}details{padding:20px}.lede{font-size:1rem}}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<!-- 可改用的完整示例。改用时同步替换标题、问题、参数、公式、假设、来源及验证，不把教学数值当作用户事实。 -->
+<main>
+<header>
+<span class="tag">理解一个机制 · 离线教学模拟</span>
+<h1>缓存命中越多，<br>平均延迟就越低吗？</h1>
+<p class="lede">改变命中率与两条路径的耗时，观察加权平均如何变化。答案取决于：一次命中，是否真的比未命中更快。</p>
+<p class="note"><strong>模拟假设，不是实测。</strong>参数由作者为教学选定；结果不能预测生产性能或 P95 延迟。</p>
+</header>
+<noscript><p>JavaScript 已关闭：下面的公式、参数范围与假设仍可阅读；滑块计算不可用，结果区已隐藏。</p></noscript>
+<div class="layout">
+<section class="card controls" aria-labelledby="controls-title">
+<h2 id="controls-title">1. 选择条件</h2>
+<form>
+<fieldset id="inputs" disabled>
+<legend>三个输入 · 用方向键也能调整</legend>
+<div class="control">
+<label for="hit">缓存命中率 <span class="value"><output id="hit-value" for="hit">40</output> %</span></label>
+<input id="hit" type="range" min="0" max="100" step="1" value="40" aria-describedby="hit-help">
+<div class="limits"><span>0%</span><span>100%</span></div>
+<p id="hit-help" class="hint">直接从缓存得到结果的请求比例；不等于结果准确率。</p>
+</div>
+<div class="control">
+<label for="fast">命中耗时 <span class="value"><output id="fast-value" for="fast">20</output> 毫秒</span></label>
+<input id="fast" type="range" min="0" max="200" step="1" value="20">
+<div class="limits"><span>0 毫秒</span><span>200 毫秒</span></div>
+</div>
+<div class="control">
+<label for="slow">未命中耗时 <span class="value"><output id="slow-value" for="slow">120</output> 毫秒</span></label>
+<input id="slow" type="range" min="1" max="500" step="1" value="120">
+<div class="limits"><span>1 毫秒</span><span>500 毫秒</span></div>
+</div>
+<button type="button" id="reset">恢复默认条件</button>
+</fieldset>
+</form>
+</section>
+<section class="card" aria-labelledby="result-title" id="results" hidden>
+<h2 id="result-title">2. 看模型结果</h2>
+<p class="hint">当前条件下的模型平均延迟（模拟）。显示最多一位小数，按整数比例四舍五入；比较方向使用未舍入值。</p>
+<div role="status" aria-live="polite" aria-atomic="true">
+<p class="number"><span id="mean">—</span> <span class="unit">毫秒</span></p>
+<p id="comparison">等待计算</p>
+</div>
+<div class="bar-row">
+<div class="bar-label"><span>同耗时、40% 命中率的基准（模拟）</span><span id="base-number">—</span></div>
+<div class="track" aria-hidden="true"><div class="bar baseline" id="base-bar"></div></div>
+</div>
+<div class="bar-row">
+<div class="bar-label"><span>当前条件（模拟）</span><span id="current-number">—</span></div>
+<div class="track" aria-hidden="true"><div class="bar" id="current-bar"></div></div>
+</div>
+<p class="hint">两条长度使用同一尺度：0–500 毫秒。基准会跟随两条路径耗时变化，仅把命中率固定为 40%。</p>
+<p id="insight" class="note"></p>
+</section>
+</div>
+<details open>
+<summary>公式、假设与来源</summary>
+<p class="formula">平均延迟 = 命中率 × 命中耗时 + (1 − 命中率) × 未命中耗时</p>
+<p>命中率先从百分数转成 0–1 的比例。默认 40%、20 毫秒、120 毫秒，算得 80 毫秒。只改到 65% 时，算得 55 毫秒，比默认值下降 31.25%。这是计算示例，不是实测改善。</p>
+<p>模型假设每次请求只走其中一条路径，且每条路径的耗时固定；不考虑排队、并发、缓存过期、内容新鲜度和长尾分布。因此它不能给出 P95，也不能证明缓存变更造成实际指标改善。</p>
+<p>试一试：将命中耗时调到 200 毫秒、未命中耗时调到 100 毫秒，再提高命中率。结果会升高，因为此时“命中”反而更慢。</p>
+<p id="source">来源：作者设计的虚构教学假设。此网页没有外部模型 API 调用，也不自动发送任何数据。</p>
+</details>
+<footer>文字、单位与假设是解释的一部分。离线打开即可使用；无需安装或联网。</footer>
+</main>
+<script>
+'use strict';
+(() => {
+  const byId = id => document.getElementById(id);
+  const hit = byId('hit'), fast = byId('fast'), slow = byId('slow');
+  // Integer input units keep display rounding exact within this template range.
+  function formatRatio(numerator, denominator, digits = 2, trim = false) {
+    const scale = 10 ** digits;
+    if (!Number.isInteger(digits) || digits < 0 || digits > 6 ||
+        !Number.isSafeInteger(numerator) || !Number.isSafeInteger(denominator) ||
+        denominator <= 0 || !Number.isSafeInteger(Math.abs(numerator) * scale))
+      throw new RangeError('formatRatio requires safe integer units and a positive denominator');
+    const scaled = Math.abs(numerator) * scale;
+    const quotient = Math.floor(scaled / denominator), remainder = scaled % denominator;
+    const rounded = quotient + (remainder >= Math.ceil(denominator / 2) ? 1 : 0);
+    let text = String(Math.floor(rounded / scale));
+    if (digits) text += '.' + String(rounded % scale).padStart(digits, '0');
+    if (trim && digits) text = text.replace(/\.?0+$/, '');
+    return (numerator < 0 && rounded ? '-' : '') + text;
+  }
+  function update() {
+    const h = Number(hit.value), f = Number(fast.value), s = Number(slow.value);
+    const meanUnits = h * f + (100 - h) * s;
+    const baselineUnits = 40 * f + 60 * s;
+    const mean = meanUnits / 100, baseline = baselineUnits / 100;
+    for (const [input, unit] of [[hit, '%'], [fast, '毫秒'], [slow, '毫秒']]) {
+      byId(input.id + '-value').value = input.value;
+      input.setAttribute('aria-valuetext', input.value + unit);
+    }
+    byId('mean').textContent = formatRatio(meanUnits, 100, 1, true);
+    const difference = baselineUnits - meanUnits;
+    byId('comparison').textContent = difference === 0
+      ? '与同耗时、40% 命中率的基准相同。'
+      : '比同耗时、40% 命中率的基准' + (difference > 0 ? '减少 ' : '增加 ')
+        + formatRatio(Math.abs(difference), 100, 1, true) + ' 毫秒（' + (difference > 0 ? '下降 ' : '上升 ')
+        + formatRatio(Math.abs(difference) * 100, baselineUnits, 1, true) + '%）。';
+    byId('base-number').textContent = formatRatio(baselineUnits, 100, 1, true) + ' 毫秒';
+    byId('current-number').textContent = formatRatio(meanUnits, 100, 1, true) + ' 毫秒';
+    byId('base-bar').style.width = (baseline / 500 * 100) + '%';
+    byId('current-bar').style.width = (mean / 500 * 100) + '%';
+    byId('insight').textContent = f < s
+      ? '在这组固定耗时假设下，命中更快；提高命中率会降低模型平均延迟。'
+      : f > s
+        ? '在这组固定耗时假设下，命中更慢；提高命中率会增加模型平均延迟。'
+        : '两条路径耗时相同；改变命中率不会改变模型平均延迟。';
+  }
+  byId('inputs').disabled = false;
+  byId('results').hidden = false;
+  [hit, fast, slow].forEach(input => input.addEventListener('input', update));
+  byId('reset').addEventListener('click', () => {
+    hit.value = '40'; fast.value = '20'; slow.value = '120'; update();
+  });
+  update();
+})();
+</script>
+</body>
+</html>

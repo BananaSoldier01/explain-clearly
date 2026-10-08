@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232e5caa'/%3E%3C/svg%3E">
+<title>词之间怎样发生联系？ · 点选自注意力</title>
+<style>
+:root{color-scheme:light;--ink:#18263e;--muted:#4d5c74;--blue:#2e5caa;--bg:#f3f5fa;--border:#d3daea;--soft:#eaf0fb;--orange:#784719}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.7}main{max-width:1100px;margin:auto;padding:40px 24px}h1{font-size:clamp(1.85rem,4.5vw,3rem);line-height:1.25;margin:14px 0 18px;letter-spacing:-.035em}h2{font-size:1.2rem;line-height:1.4;margin:0 0 14px}h3{font-size:1rem;margin:0 0 8px}p{margin:10px 0}a{color:var(--blue);overflow-wrap:anywhere}button,input{font:inherit}button{cursor:pointer}button:disabled{cursor:default}button:hover{border-color:var(--blue)}:focus-visible{outline:3px solid #ab5b10;outline-offset:4px}.eyebrow{font-size:.88rem;font-weight:700;color:var(--blue);letter-spacing:.06em}.lede{max-width:800px;font-size:1.08rem;color:var(--muted)}.notice{border-left:4px solid var(--orange);background:#faf0e4;padding:10px 15px;font-size:.94rem}.card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:24px;margin-top:22px;min-width:0}.small{font-size:.88rem;color:var(--muted)}.controls{display:flex;gap:16px;align-items:center;flex-wrap:wrap}.controls fieldset{border:0;margin:0;padding:0;display:flex;gap:12px;align-items:center;flex-wrap:wrap}.controls legend{font-size:.92rem;font-weight:700;margin-bottom:8px}label.mode{display:flex;align-items:center;gap:7px;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:.94rem;cursor:pointer}input[type=radio]{accent-color:var(--blue)}.reset{border:1px solid var(--border);border-radius:8px;background:#fff;padding:8px 12px;color:var(--ink);margin-left:auto}.graph{position:relative;height:380px;margin-top:14px;background:linear-gradient(180deg,#f7f9fe,#eef3fc);border:1px solid var(--border);border-radius:12px;isolation:isolate}.graph svg{position:absolute;inset:0;width:100%;height:100%;z-index:-1}.token{position:absolute;transform:translate(-50%,-50%);border:1px solid #92a9cc;background:#fff;border-radius:10px;padding:8px 6px;width:126px;min-height:72px;color:var(--ink);box-shadow:0 3px 8px #2334540b;line-height:1.4}.token[aria-pressed=true]{border:3px solid var(--blue);background:#edf3ff}.token.masked{border-style:dashed;background:#f4f4f5;color:#555e70}.token .word{display:block;font-weight:700;font-size:1.05rem}.token .index{font-size:.75rem;color:var(--muted)}.token .weight{display:block;font-size:.84rem;margin-top:3px}.query{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:208px;text-align:center;background:var(--blue);color:#fff;padding:14px 10px;border-radius:14px;border:3px solid #fff;box-shadow:0 5px 16px #23437120;line-height:1.5}.query strong{font-size:1.12rem}.query .vector{font-family:ui-monospace,monospace;font-size:.9rem}.query .query-label{font-size:.78rem;opacity:.9}.status{padding:12px 14px;background:var(--soft);border-radius:8px;margin-top:14px}.status p{margin:3px 0}.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.step{border-top:3px solid var(--blue);padding-top:12px;min-width:0}.number{display:inline-block;background:var(--soft);color:var(--blue);width:25px;height:25px;border-radius:50%;text-align:center;margin-right:6px;font-size:.85rem}.formula{font-family:ui-monospace,monospace;font-size:.88rem;background:#f3f5f9;border-radius:8px;padding:10px;overflow-wrap:anywhere;line-height:1.8}.result{font-size:1.25rem;font-weight:750;color:var(--blue);font-family:ui-monospace,monospace;overflow-wrap:anywhere}.rows{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.row{border:1px solid var(--border);border-radius:9px;padding:12px;min-width:0}.row header{display:flex;align-items:center;justify-content:space-between;gap:8px}.row h3{margin:0}.row .metrics{font-size:.85rem;overflow-wrap:anywhere;color:var(--muted);margin-top:8px}.bar-track{height:8px;background:#e8edf5;border-radius:4px;margin-top:9px;overflow:hidden}.bar{height:100%;background:var(--blue);width:0}.row.selected{border:2px solid var(--blue)}.row.masked{border-style:dashed;background:#f5f5f7}.row .weight-label{font-size:.85rem;font-weight:650}.component{margin-top:8px;font-family:ui-monospace,monospace;font-size:.88rem;overflow-wrap:anywhere}details{background:#fff;border:1px solid var(--border);border-radius:14px;padding:20px 24px;margin-top:22px}summary{cursor:pointer;font-weight:700}ul{padding-left:24px}li{margin:6px 0}footer{font-size:.88rem;color:var(--muted);margin-top:22px}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}[hidden]{display:none!important}noscript p{border:2px solid var(--orange);padding:14px;border-radius:8px}.toolbar-help{margin-bottom:0}
+@media(max-width:650px){main{padding:24px 14px}.card{padding:18px}.steps{grid-template-columns:1fr;gap:15px}.rows{grid-template-columns:1fr}.graph{height:360px}.token{width:88px;padding:8px 3px}.token .word{font-size:.93rem}.token .weight{font-size:.76rem}.query{width:166px;padding:12px 7px}.query strong{font-size:1rem}.query .vector{font-size:.8rem}.reset{margin-left:0}.controls{gap:10px}label.mode{font-size:.88rem;padding:7px 9px}details{padding:18px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<main>
+<header>
+<span class="eyebrow">自注意力 · 单头教学演示 · 离线可用</span>
+<h1>一个词，怎样把上下文带进来？</h1>
+<p class="lede">自注意力会让<strong>每个位置用自己的“查询”给可访问位置分配权重，再组合那些位置的信息向量</strong>。这样，该位置的表示就能带上上下文。这里把例句分成六个示意位置，点一个位置就能查看它的计算。</p>
+<p class="notice"><strong>教学示例：</strong>全部向量、权重与连线均由手工数值计算，未读取任何真实模型。较高权重不能证明模型理解了指代，也不能保证答案正确。</p>
+</header>
+<noscript><p>JavaScript 已关闭：下方的原理、公式、假设与来源仍可阅读；点选和计算不可用，动态结果已隐藏。</p></noscript>
+<section class="card" aria-labelledby="graph-title">
+<h2 id="graph-title">点一个位置，看看它能查看谁</h2>
+<p>例句：<strong>“小球滚动，小猫追着它。”</strong> 此处按便于讲解的六个片段划分，实际模型使用的 token（文本片段）划分可能不同，句末标点也未展示。</p>
+<div class="controls">
+<fieldset id="modes" disabled aria-describedby="mode-help">
+<legend>访问范围</legend>
+<label class="mode" for="encoder"><input id="encoder" type="radio" name="mode" value="encoder" checked>编码器：可看整句</label>
+<label class="mode" for="causal"><input id="causal" type="radio" name="mode" value="causal">因果解码器：只看自己和前文</label>
+</fieldset>
+<button class="reset" id="reset" type="button" disabled>恢复默认</button>
+</div>
+<p id="mode-help" class="small toolbar-help">默认选“它”和编码器模式。先点“小猫”，再切换因果模式：后面的“追着”和“它”会被屏蔽，权重归零；剩余位置的权重会重新归一化。</p>
+<div id="diagram" hidden>
+<div class="graph" aria-label="所选位置与可访问位置的权重关系；每个词都是可用键盘操作的按钮">
+<svg id="links" viewBox="0 0 1000 440" preserveAspectRatio="none" aria-hidden="true"></svg>
+<div id="nodes"></div>
+<div class="query">
+<div class="query-label">当前位置的查询 Q</div>
+<strong id="query-word">—</strong>
+<div id="query-vector" class="vector">—</div>
+</div>
+</div>
+<p class="small">线连接当前查询 Q 与可访问位置的 K；线宽表示教学权重，无箭头。外圈每个位置提供 K 和 V，包括当前位置自己。权重越高，它的 V 在本次组合中所占比例越大。</p>
+<div class="status" role="status" aria-live="polite" aria-atomic="true">
+<p id="selection-status"></p>
+<p id="mask-status" class="small"></p>
+</div>
+</div>
+</section>
+<section class="card" aria-labelledby="mechanism-title">
+<h2 id="mechanism-title">从匹配到组合，只看这三步</h2>
+<div class="steps">
+<section class="step"><h3><span class="number">1</span>Q 找 K：先算匹配分数</h3><p><strong>Q（query，查询向量）</strong>是当前位置用于匹配的数值；<strong>K（key，键向量）</strong>是各位置供它匹配的数值。两者做点积，再缩放，得到分数。</p><p class="formula">分数 sⱼ = Qᵢ · Kⱼ / √dₖ<br>本例 dₖ = 2</p></section>
+<section class="step"><h3><span class="number">2</span>softmax：把分数变成权重</h3><p><strong>softmax</strong>把可访问位置的分数变成总和为 1 的非负权重。较高分数会得到较高权重。因果模式先屏蔽后文，再对剩余位置计算权重。</p><p class="formula">wⱼ = exp(sⱼ) / Σ exp(sₖ)<br>求和仅含可访问位置</p></section>
+<section class="step"><h3><span class="number">3</span>组合 V：得到注意力输出</h3><p><strong>V（value，值向量）</strong>是各位置实际提供的信息。把每个 V 乘以对应权重，再相加，得到当前位置的注意力输出。</p><p class="formula">zᵢ = Σ wⱼ Vⱼ</p><p class="small">相加的是数值向量，不是文字本身；这里的两个坐标没有人为指定的语义。</p></section>
+</div>
+</section>
+<section class="card" aria-labelledby="calculation-title" id="calculation" hidden>
+<h2 id="calculation-title">当前计算 · 手工向量的演示结果</h2>
+<p id="calculation-intro"></p>
+<div class="rows" id="calculation-rows"></div>
+<p><strong>加权组合后的注意力输出</strong></p>
+<p class="result" id="output-vector"></p>
+<p id="sum-weights" class="small"></p>
+<p class="notice">这些数值只展示机制，不能用来判断“它”究竟指谁。匹配分数、贡献与输出保留 3 位小数，权重保留 1 位百分数；计算使用未舍入值，显示的权重相加可能与 100% 略有差别。</p>
+</section>
+<details open>
+<summary>这里省略了什么？</summary>
+<p>真实自注意力层会把每个位置的输入表示 x 经过学到的线性投影，分别产生 Q、K、V：Q = xW<sub>Q</sub>、K = xW<sub>K</sub>、V = xW<sub>V</sub>。同一个位置同时有三者，不会永久被分成“Q 词”“K 词”或“V 词”。本页直接给出手工 Q/K/V，未模拟学习投影的过程。</p>
+<ul>
+<li>编码器通常可访问整段输入；因果解码器只能访问当前位置与此前位置。本页用这两种常见范围作比较，固定同一组向量以单独观察 mask（访问限制）的作用。</li>
+<li>本页只有一个注意力头、两个向量坐标。多头使用多组投影；完整 Transformer 还包含后续输出投影、残差连接等步骤，这里没有展示。</li>
+<li>“每个位置形成带有上下文的表示”描述一种计算机制，不代表人的意识，也不代表模型已经理解了句子。</li>
+</ul>
+</details>
+<details>
+<summary>查看本页固定的教学向量与依据</summary>
+<p>输入选项只有“当前查询位置”和“访问范围”，没有真实模型参数或联网调用。固定向量如下，括号内是两个无单位坐标。</p>
+<ul>
+<li>位置 1“小球”：Q = [2, 0]，K = [2, 0]，V = [2, 0]</li>
+<li>位置 2“滚动”：Q = [0, 2]，K = [0, 2]，V = [0, 2]</li>
+<li>位置 3“，”：Q = [0, 0]，K = [0, 0]，V = [0, 0]</li>
+<li>位置 4“小猫”：Q = [1, 1]，K = [1, 0]，V = [1, 1]</li>
+<li>位置 5“追着”：Q = [1, 2]，K = [0, 1]，V = [1, 2]</li>
+<li>位置 6“它”：Q = [3, 0]，K = [1, 1]，V = [0, 1]</li>
+</ul>
+<p>这些整数均是作者为教学选择的假设。比如点击“，”时 Q = [0, 0]，所有可访问位置分数相同，softmax 给它们相同权重；这不代表真实模型中的标点一定平均分配注意力。</p>
+<p>概念依据：Vaswani 等 <a href="https://arxiv.org/html/1706.03762v7" target="_blank" rel="noopener noreferrer">Attention Is All You Need</a> 第 3.2 节（Q/K/V、缩放、权重与组合）与第 3.2.3 节（编码器与解码器的访问范围）。论文链接只在手动点击时打开，网页运行不依赖它。</p>
+</details>
+<footer>单文件，无外部运行资源。使用 Tab 选中词按钮，按 Enter 或空格查看；模式单选按钮支持方向键。交互代码沿用 2026-10-07 已检查的原始案例；本次仅整理说明，未重新执行浏览器检查。见 <a href="https://github.com/BananaSoldier01/explain-clearly/blob/main/VERIFICATION.md">验证记录</a>。</footer>
+</main>
+<script>
+'use strict';
+(() => {
+  const tokens = ['小球', '滚动', '，', '小猫', '追着', '它'];
+  const queries = [[2,0], [0,2], [0,0], [1,1], [1,2], [3,0]];
+  const keys = [[2,0], [0,2], [0,0], [1,0], [0,1], [1,1]];
+  const values = [[2,0], [0,2], [0,0], [1,1], [1,2], [0,1]];
+  const positions = [[15,16], [50,16], [85,16], [15,84], [50,84], [85,84]];
+  const byId = id => document.getElementById(id);
+  let selected = 5;
+  const buttons = [], rows = [];
+  const vector = v => '[' + v.map(n => String(n)).join(', ') + ']';
+  const fixedVector = v => '[' + v.map(n => n.toFixed(3)).join(', ') + ']';
+  function element(tag, className, text) {
+    const el = document.createElement(tag);
+    if (className) el.className = className;
+    if (text !== undefined) el.textContent = text;
+    return el;
+  }
+  tokens.forEach((word, index) => {
+    const button = element('button', 'token');
+    button.type = 'button';
+    button.style.left = positions[index][0] + '%';
+    button.style.top = positions[index][1] + '%';
+    button.append(element('span', 'index', '位置 ' + (index + 1)), element('span', 'word', word), element('span', 'weight'));
+    button.addEventListener('click', () => { selected = index; update(); });
+    byId('nodes').append(button); buttons.push(button);
+    const row = element('article', 'row');
+    const head = element('header');
+    head.append(element('h3', '', '位置 ' + (index + 1) + ' · ' + word), element('span', 'weight-label'));
+    const metrics = element('div', 'metrics');
+    const track = element('div', 'bar-track'); track.setAttribute('aria-hidden', 'true'); track.append(element('div', 'bar'));
+    row.append(head, metrics, track, element('div', 'component'));
+    byId('calculation-rows').append(row); rows.push(row);
+  });
+  function update() {
+    const causal = byId('causal').checked;
+    const allowed = tokens.map((_, j) => !causal || j <= selected);
+    const q = queries[selected];
+    const scores = keys.map(k => (q[0]*k[0] + q[1]*k[1]) / Math.sqrt(2));
+    const maxScore = Math.max(...scores.filter((_, j) => allowed[j]));
+    const expScores = scores.map((score, j) => allowed[j] ? Math.exp(score - maxScore) : 0);
+    const total = expScores.reduce((sum, value) => sum + value, 0);
+    const weights = expScores.map(value => value / total);
+    const output = [0,0];
+    byId('links').replaceChildren();
+    tokens.forEach((word, j) => {
+      const pct = (weights[j] * 100).toFixed(1) + '%';
+      const button = buttons[j], row = rows[j];
+      const weightText = allowed[j] ? '权重 ' + pct : '屏蔽 · 0.0%';
+      button.setAttribute('aria-pressed', String(j === selected));
+      button.setAttribute('aria-label', '查看位置 ' + (j+1) + '“' + word + '”作为查询；当前' + weightText);
+      button.classList.toggle('masked', !allowed[j]);
+      button.querySelector('.weight').textContent = weightText;
+      row.classList.toggle('selected', j === selected);
+      row.classList.toggle('masked', !allowed[j]);
+      row.querySelector('.weight-label').textContent = weightText;
+      row.querySelector('.metrics').textContent = 'K = ' + vector(keys[j]) + '；V = ' + vector(values[j]) + '；' + (allowed[j] ? '缩放分数 = ' + scores[j].toFixed(3) : '未来位置：不参与分数归一化和组合');
+      row.querySelector('.bar').style.width = (weights[j] * 100) + '%';
+      const contribution = values[j].map(n => n * weights[j]);
+      row.querySelector('.component').textContent = 'w × V = ' + fixedVector(contribution);
+      output[0] += contribution[0]; output[1] += contribution[1];
+      if (allowed[j]) {
+        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        line.setAttribute('x1', '500'); line.setAttribute('y1', '220');
+        line.setAttribute('x2', String(positions[j][0] * 10)); line.setAttribute('y2', String(positions[j][1] * 4.4));
+        line.setAttribute('stroke', '#7e9bcd'); line.setAttribute('stroke-width', String(1 + weights[j] * 12));
+        line.setAttribute('vector-effect', 'non-scaling-stroke'); byId('links').append(line);
+      }
+    });
+    const count = allowed.filter(Boolean).length;
+    byId('query-word').textContent = '位置 ' + (selected+1) + ' · ' + tokens[selected];
+    byId('query-vector').textContent = 'Q = ' + vector(q);
+    byId('selection-status').textContent = '当前查看“' + tokens[selected] + '”：它的 Q 对 ' + count + ' 个可访问位置分配权重，再组合这些位置的 V。';
+    byId('mask-status').textContent = causal
+      ? (selected === tokens.length-1 ? '“它”位于末尾，没有后续位置可屏蔽；在本页固定向量下，切换范围不会改变它的结果。试着点“小猫”看区别。' : '位置 ' + (selected+2) + '–' + tokens.length + ' 属于后文，权重严格为 0；它们的 V 不参与本次输出。')
+      : '编码器模式可查看整句，包括后续位置；这条规则不适用于因果解码器。';
+    byId('calculation-intro').textContent = '取位置 ' + (selected+1) + '“' + tokens[selected] + '”的 Q = ' + vector(q) + '，依次与以下 K 计算匹配分数。每一行也展示对应 V 的贡献。';
+    byId('output-vector').textContent = 'z = ' + fixedVector(output);
+    byId('sum-weights').textContent = '可访问位置的未舍入权重总和为 1。输出的两个坐标是示例数值，不是文字或答案。';
+  }
+  byId('modes').disabled = false;
+  byId('reset').disabled = false;
+  byId('diagram').hidden = false;
+  byId('calculation').hidden = false;
+  [byId('encoder'), byId('causal')].forEach(control => control.addEventListener('change', update));
+  byId('reset').addEventListener('click', () => { selected = 5; byId('encoder').checked = true; update(); });
+  update();
+})();
+</script>
+</body>
+</html>

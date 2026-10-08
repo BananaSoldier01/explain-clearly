@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1440" viewBox="0 0 1080 1440">
+<title>重试：把不同风险分开 / 实际文字答复 · 原句摘录</title>
+<desc>文字演示图卡；专业输入与真实模型输出分别标注；不是聊天窗口截图。</desc>
+<rect width="1080" height="1440" fill="#f3f6f4"/>
+<text x="64" y="76" font-family="Arial Unicode MS,Heiti TC,sans-serif" font-size="28" font-weight="bold" fill="#17675e">explain-clearly</text>
+<text x="64" y="150" font-family="Arial Unicode MS,Heiti TC,sans-serif" font-size="50" font-weight="bold" fill="#18343b">重试：把不同风险分开</text>
+<text x="64" y="211" font-family="Arial Unicode MS,Heiti TC,sans-serif" font-size="31" font-weight="bold" fill="#17675e">实际文字答复 · 原句摘录</text>
+<rect x="64" y="260" width="952" height="965.9" rx="22" fill="#ffffff" stroke="#cfdbd5"/>
+<rect x="64" y="288" width="5" height="909.9" fill="#17675e"/>
+<text x="94" y="312" font-family="Arial Unicode MS,Heiti TC,sans-serif" font-size="36" font-weight="normal" fill="#19343c">它们处理的是重试中的不同风险：退避和抖动安排请求</text>
+<text x="94" y="363.12" font-family="Arial Unicode MS,Heiti TC,sans-serif" font-size="36" font-weight="normal" fill="#19343c">何时再发，重试额度限制还能发多少次，幂等则避免同</text>
+<text x="94" y="414.24" font-family="Arial Unicode MS,Heiti TC,sans-serif" font-size="36" font-weight="normal" fill="#19343c">一业务操作因重复请求而执行多遍。</text>
+<text x="94" y="485.36" font-family="Arial Unicode MS,Heiti TC,sans-serif" font-size="36" font-weight="normal" fill="#19343c">重试额度：用一个可消耗、可恢复的预算限制重试流</text>
+<text x="94" y="536.48" font-family="Arial Unicode MS,Heiti TC,sans-serif" font-size="36" font-weight="normal" fill="#19343c">量。持续失败会耗尽预算，客户端便停止重试并返回错</text>
+<text x="94" y="587.6" font-family="Arial Unicode MS,Heiti TC,sans-serif" font-size="36" font-weight="normal" fill="#19343c">误；成功请求可以补回预算。它防的是故障期间重试越</text>
+<text x="94" y="638.72" font-family="Arial Unicode MS,Heiti TC,sans-serif" font-size="36" font-weight="normal" fill="#19343c">积越多、进一步加重服务压力。</text>
+<text x="94" y="709.84" font-family="Arial Unicode MS,Heiti TC,sans-serif" font-size="36" font-weight="normal" fill="#19343c">幂等和 client token：这是另一层保护。对支持 client</text>
+<text x="94" y="760.96" font-family="Arial Unicode MS,Heiti TC,sans-serif" font-size="36" font-weight="normal" fill="#19343c">token 的 EC2 操作，在同一幂等范围内，用相同 token</text>
+<text x="94" y="812.08" font-family="Arial Unicode MS,Heiti TC,sans-serif" font-size="36" font-weight="normal" fill="#19343c">和相同参数重试，服务可以识别这是同一个操作，避免</text>
+<text x="94" y="863.2" font-family="Arial Unicode MS,Heiti TC,sans-serif" font-size="36" font-weight="normal" fill="#19343c">再执行一次。例如客户端等到超时，但服务端可能已经</text>
+<text x="94" y="914.32" font-family="Arial Unicode MS,Heiti TC,sans-serif" font-size="36" font-weight="normal" fill="#19343c">完成操作；重试时沿用原 token 和参数，就能防止重复</text>
+<text x="94" y="965.44" font-family="Arial Unicode MS,Heiti TC,sans-serif" font-size="36" font-weight="normal" fill="#19343c">创建等副作用。它不保证请求一定成功，也只适用于支</text>
+<text x="94" y="1016.5600000000001" font-family="Arial Unicode MS,Heiti TC,sans-serif" font-size="36" font-weight="normal" fill="#19343c">持该机制的操作和相应范围。</text>
+<text x="94" y="1087.68" font-family="Arial Unicode MS,Heiti TC,sans-serif" font-size="36" font-weight="normal" fill="#19343c">这里的重试额度 token 和 EC2 的 client token 是两种不</text>
+<text x="94" y="1138.8" font-family="Arial Unicode MS,Heiti TC,sans-serif" font-size="36" font-weight="normal" fill="#19343c">同东西。</text>
+<line x1="64" y1="1288" x2="1016" y2="1288" stroke="#ccdad2"/>
+<text x="64" y="1323" font-family="Arial Unicode MS,Heiti TC,sans-serif" font-size="23" font-weight="normal" fill="#53676b">保留 EC2 操作支持范围、相同 token 与参数等条件。</text>
+<text x="64" y="1357" font-family="Arial Unicode MS,Heiti TC,sans-serif" font-size="23" font-weight="normal" fill="#53676b">本轮两边总体接近；完整答复和对照见文字示例。</text>
+</svg>

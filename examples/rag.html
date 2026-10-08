@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RAG：资料怎样变成回答 · 可点击教学流程</title>
+<style>
+:root{color-scheme:light;--ink:#17343b;--muted:#52676d;--bg:#f1f5f4;--paper:#fff;--line:#cad8d7;--accent:#12675e;--wash:#e9f4ef;--warning:#854310;--warn-bg:#fff2e4}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.75}main{max-width:1180px;margin:auto;padding:44px 26px 30px}h1,h2,h3,p{margin-top:0}h1{font-size:clamp(2rem,4.3vw,3.25rem);line-height:1.22;letter-spacing:-.035em;max-width:900px;margin-bottom:20px}h2{font-size:1.3rem;line-height:1.4;margin-bottom:16px}h3{font-size:1.05rem;margin-bottom:10px}p{margin-bottom:12px}a{color:#075f92;overflow-wrap:anywhere}button,select{font:inherit}button{cursor:pointer}button:disabled,select:disabled{cursor:default}button:focus-visible,select:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid #9d4e12;outline-offset:4px}header{margin-bottom:30px}.eyebrow{display:inline-block;border:1px solid var(--accent);color:var(--accent);border-radius:6px;padding:3px 10px;margin-bottom:18px;font-size:.86rem;font-weight:650}.lede{font-size:1.12rem;color:var(--muted);max-width:860px}.note{padding:12px 16px;border-left:4px solid var(--accent);background:var(--wash);border-radius:0 8px 8px 0}.small{font-size:.9rem;color:var(--muted)}.card{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:26px;min-width:0}.section-gap{margin-top:24px}.pipeline{display:grid;grid-template-columns:minmax(0,1fr) 65px minmax(0,1fr) 65px minmax(0,1fr) 65px minmax(0,1fr);align-items:stretch;margin:24px 0}.step{width:100%;text-align:left;border:1px solid var(--line);background:#fff;border-radius:12px;padding:18px 16px;color:var(--ink);min-width:0;display:flex;flex-direction:column;gap:7px;line-height:1.5}.step[aria-pressed="true"]{border:2px solid var(--accent);padding:17px 15px;background:var(--wash)}.step:hover:enabled{border-color:var(--accent)}.step-number{font-size:.82rem;font-weight:700;color:var(--accent)}.step-title{font-size:1.12rem;font-weight:750}.step-subtitle{font-size:.86rem;color:var(--muted)}.edge{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:7px;color:var(--muted);font-size:.72rem;text-align:center;line-height:1.5}.edge-arrow{font-size:1.7rem;line-height:1.3;color:var(--accent)}.step-detail{padding:20px;background:#f6f8f7;border-radius:12px;border:1px solid var(--line);margin-top:14px}.step-detail p:last-child{margin-bottom:0}.risk{color:var(--warning)}.two-col{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.15fr);gap:24px}.doc-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.doc{padding:20px;border:1px solid var(--line);border-radius:12px;background:#fff}.doc-tag{display:inline-block;font-size:.8rem;padding:2px 8px;background:#edf1f0;border-radius:5px;margin-bottom:10px}.doc-new .doc-tag{background:var(--wash);color:var(--accent)}.quote{font-size:1.08rem;font-weight:650;margin-bottom:0}.controls{border:0;margin:0;padding:0;min-width:0}.controls legend{font-weight:650;margin-bottom:16px}.control{margin-bottom:22px}label{display:block;font-weight:650;margin-bottom:6px}select{display:block;width:100%;max-width:100%;padding:10px 12px;border:1px solid #91aaa5;border-radius:8px;background:#fff;color:var(--ink)}.help{font-size:.87rem;color:var(--muted);margin:7px 0 0}.reset{border:0;border-radius:8px;background:var(--accent);color:#fff;padding:10px 16px}.reset:hover:enabled{background:#0b524b}.result-block{padding-top:16px;border-top:1px solid var(--line);margin-top:18px}.label{font-size:.83rem;color:var(--muted);margin-bottom:7px}.result-answer{font-size:1.15rem;font-weight:650;line-height:1.75;margin-bottom:14px}.status{display:inline-block;border:1px solid var(--accent);color:var(--accent);background:var(--wash);padding:3px 9px;border-radius:6px;font-size:.84rem;margin-bottom:12px}.status.error{border-color:var(--warning);color:var(--warning);background:var(--warn-bg)}.context-list{padding-left:22px;margin-top:8px}.context-list li{margin-bottom:8px}details{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px 26px;margin-top:24px}summary{cursor:pointer;font-weight:700;margin-bottom:8px}.case-list{padding-left:24px}.case-list li{margin:16px 0}.source-list{padding-left:24px}.source-list li{margin:12px 0}footer{font-size:.86rem;color:var(--muted);margin-top:24px}noscript .note{border-color:var(--warning);background:var(--warn-bg)}[hidden]{display:none!important}@media(max-width:930px){.pipeline{grid-template-columns:1fr}.edge{padding:6px;flex-direction:row;gap:12px}.edge-arrow{transform:rotate(90deg);font-size:1.5rem}.step{padding:15px 18px}.step[aria-pressed="true"]{padding:14px 17px}.two-col{grid-template-columns:1fr}}@media(max-width:600px){main{padding:24px 16px}.card,details{padding:20px}.doc-grid{grid-template-columns:1fr}.lede{font-size:1rem}.result-answer{font-size:1.05rem}}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<main>
+<header>
+<span class="eyebrow">RAG · 可点击的教学流程</span>
+<h1>资料怎样变成回答？<br>找到了，为什么还会答错？</h1>
+<p class="lede"><strong>RAG（检索增强生成）先找资料，再把问题和选出的资料交给模型写答案。</strong>“找到资料”和“忠实使用资料”是两件事；任何一环出现问题，回答都可能不可靠。</p>
+<p class="note"><strong>这是虚构教学演示。</strong>页面按你的选择切换预先写好的文本，没有调用真实模型，也没有测试任何实际 RAG 系统。</p>
+</header>
+<noscript><p class="note">JavaScript 已关闭：四步说明、虚构资料与三个示例仍可阅读。流程按钮和情景控件不可用，动态结果区已隐藏。</p></noscript>
+
+<section class="card" aria-labelledby="flow-title">
+<h2 id="flow-title">1. 点一下，看看每一步做什么</h2>
+<p class="small">箭头表示向下一步传递的内容。资料整理通常先做；之后每次问题走检索、交接和生成。这里展示一种简化的推理时流程，真实系统可以不同。</p>
+<nav class="pipeline" aria-label="RAG 的四个步骤">
+<button class="step" type="button" id="step-button-1" aria-controls="step-detail-1" aria-pressed="false" disabled><span class="step-number">01 · 事先准备</span><span class="step-title">整理资料</span><span class="step-subtitle">文档 → 可检索内容</span></button>
+<div class="edge"><span class="edge-arrow" aria-hidden="true">→</span><span>可检索<br>内容</span></div>
+<button class="step" type="button" id="step-button-2" aria-controls="step-detail-2" aria-pressed="false" disabled><span class="step-number">02 · 问题进入</span><span class="step-title">检索片段</span><span class="step-subtitle">用问题找相关内容</span></button>
+<div class="edge"><span class="edge-arrow" aria-hidden="true">→</span><span>选出的<br>片段</span></div>
+<button class="step" type="button" id="step-button-3" aria-controls="step-detail-3" aria-pressed="false" disabled><span class="step-number">03 · 应用交接</span><span class="step-title">组成上下文</span><span class="step-subtitle">问题 ＋ 选出的片段</span></button>
+<div class="edge"><span class="edge-arrow" aria-hidden="true">→</span><span>问题<br>＋片段</span></div>
+<button class="step" type="button" id="step-button-4" aria-controls="step-detail-4" aria-pressed="false" disabled><span class="step-number">04 · 模型生成</span><span class="step-title">组织答案</span><span class="step-subtitle">读上下文，写出回答</span></button>
+</nav>
+<div id="step-details">
+<article class="step-detail" id="step-detail-1" aria-labelledby="step-detail-title-1">
+<h3 id="step-detail-title-1">整理资料：先让文档能被找出来</h3>
+<p>已有文档先整理成可检索内容，例如把较长文档拆成片段。片段仍属于原资料；这一步为后续检索准备内容。</p>
+<p class="risk"><strong>可能出的问题：</strong>资料本身已经过期，或缺少能回答问题的信息。整理完成并不代表资料完整、最新。</p>
+</article>
+<article class="step-detail" id="step-detail-2" aria-labelledby="step-detail-title-2">
+<h3 id="step-detail-title-2">检索片段：找“相关”，还不能判定“够用”</h3>
+<p>用户问“青叶展馆这周六开门吗？”，系统用这个问题寻找相关片段。旧版周六开放公告很相关，但可能不足以确认本周六的安排。</p>
+<p class="risk"><strong>可能出的问题：</strong>没有找到合适内容，或找到了过期、冲突、不足以回答问题的内容。检索成功不等于答案正确。</p>
+</article>
+<article class="step-detail" id="step-detail-3" aria-labelledby="step-detail-title-3">
+<h3 id="step-detail-title-3">组成上下文：把本次可用证据交给模型</h3>
+<p>应用把问题和选出的片段一起交给生成模型。<strong>上下文</strong>就是模型本次回答时能看到的这些输入。它不等于整个资料库。</p>
+<p class="note"><strong>此处模型参数保持不变。</strong>把检索资料放进上下文，不等于重新训练模型。真实 RAG 系统可有不同检索、排序和训练设计。</p>
+</article>
+<article class="step-detail" id="step-detail-4" aria-labelledby="step-detail-title-4">
+<h3 id="step-detail-title-4">组织答案：有资料，仍可能读错或添话</h3>
+<p>模型根据问题与片段组织回答。它可能正确比较公告的适用时间，也可能忽略新公告，或加入资料中没有的信息。</p>
+<p class="risk"><strong>可能出的问题：</strong>误读、忽略证据或补出无依据内容。回答附带引用，也不保证那段资料支持它的全部结论。</p>
+</article>
+</div>
+</section>
+
+<section class="section-gap" aria-labelledby="docs-title">
+<h2 id="docs-title">2. 用两份虚构公告，拆开看哪里会错</h2>
+<p>问题固定为：<strong>“青叶展馆这周六开门吗？”</strong>以下是同一展馆的两份演示资料，不对应真实展馆。</p>
+<div class="doc-grid">
+<article class="doc"><span class="doc-tag">A · 旧版常规公告</span><h3>常规安排</h3><p class="quote">“周六开放。”</p><p class="small">只描述常规安排，不能单独确认本周是否有例外。</p></article>
+<article class="doc doc-new"><span class="doc-tag">B · 本周维修公告</span><h3>本周六的例外</h3><p class="quote">“这周六暂停开放。”</p><p class="small">在本演示中，它明确针对问题里的“这周六”。</p></article>
+</div>
+</section>
+
+<div class="two-col section-gap">
+<section class="card" aria-labelledby="control-title">
+<h2 id="control-title">3. 分别改变两个条件</h2>
+<form>
+<fieldset class="controls" id="scenario-controls" disabled>
+<legend>先看检索，再看生成</legend>
+<div class="control"><label for="retrieval">检索交出哪些资料？</label><select id="retrieval" aria-describedby="retrieval-help"><option value="both" selected>A 和 B：旧公告 ＋ 本周维修公告</option><option value="old">只有 A：旧版常规公告</option><option value="none">没有合适片段</option></select><p class="help" id="retrieval-help">它决定交给模型的证据。选到旧公告，只表示找到了相关内容。</p></div>
+<div class="control"><label for="generation">模型怎样使用这些资料？</label><select id="generation" aria-describedby="generation-help"><option value="ignore" selected>忽略时间或证据限制</option><option value="faithful">按资料的时间和适用范围回答</option><option value="invent">补出资料没有的信息</option></select><p class="help" id="generation-help">这是教学情景选择，不是实际模型设置；谨慎回答可以说明证据不足。</p></div>
+<button class="reset" type="button" id="reset">恢复初始情景</button>
+</fieldset>
+</form>
+<p class="small section-gap">初始情景刻意演示：新公告已经找到，回答仍忽略它。试着只改变“模型怎样使用资料”，就能看清生成阶段的影响。</p>
+</section>
+<section class="card" id="scenario-results" aria-labelledby="result-title" hidden>
+<h2 id="result-title">4. 看这一组合的演示结果</h2>
+<p class="note small"><strong>预写文本演示：</strong>下面的“模型回答”与解释按选择切换；不是实时模型输出、预测或系统测试。</p>
+<p class="label section-gap">交给模型的上下文</p>
+<p><strong>问题：</strong>青叶展馆这周六开门吗？</p>
+<ul class="context-list" id="context-list"></ul>
+<div class="result-block" role="status" aria-live="polite" aria-atomic="true">
+<span id="result-status" class="status"></span>
+<p class="label">模型回答 · 虚构演示</p>
+<p class="result-answer" id="answer"></p>
+<p id="why"></p>
+<p class="small" id="boundary"></p>
+</div>
+</section>
+</div>
+
+<details open>
+<summary>三个关键情景，不点控件也能读懂</summary>
+<ol class="case-list">
+<li><strong>只找到旧公告，谨慎使用：</strong>“旧版常规公告写周六开放，但无法确认本周六安排。”检索证据不足，所以还不能给出确定的开门结论。</li>
+<li><strong>两份公告都找到，却忽略新公告：</strong>“这周六开门。”这是演示中的错误回答；证据已经交给模型，生成阶段仍可能用错。</li>
+<li><strong>两份公告都找到，并正确比较适用时间：</strong>“这周六暂停开放。”在这组虚构资料中，回答有依据。这个示例不能证明任何真实系统一定答对。</li>
+</ol>
+<p class="note"><strong>要记住的区别：</strong>检索检查“找到了什么、是否够用”；生成检查“回答是否忠实使用证据”。引用只是指向资料，还需要核对资料是否支持具体结论。</p>
+</details>
+
+<details>
+<summary>本页的范围、假设与来源</summary>
+<p>本页只解释一种简化的推理时 RAG 流水线：已有文档整理为可检索内容，用户问题检索片段，应用把问题与选出的片段交给生成模型，模型组织答案。此处生成模型参数不变。</p>
+<p>固定教学假设：青叶展馆是虚构展馆；A 表示旧版常规安排，B 表示本周六维修例外。交互只有三个检索选项和三个使用资料的选项，按组合切换预写文本，不计算准确率，也不模拟真实检索算法、排序或模型行为。</p>
+<p>真实系统可能采用不同的检索、排序和训练方式。本文未覆盖所有 RAG 实现，也没有证明任何改进能消除错误。资料相关、资料足够、回答有依据，需要分别判断。</p>
+<p><strong>依据与范围：</strong>本页对推理时 RAG 流程作概念简化，参考下列原始论文与官方说明。青叶展馆的两份公告和所有情景回答均为原创虚构例子，不对应真实展馆或模型运行。</p>
+<ul class="source-list">
+<li><a href="https://arxiv.org/html/2005.11401v4" target="_blank" rel="noopener noreferrer">Lewis 等：Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks，第 2 节</a>：资料摘记将其列为检索片段与生成上下文、具体训练设计的依据；该论文的训练设计不代表本页推理时示例在重新训练。</li>
+<li><a href="https://learn.microsoft.com/en-us/azure/search/retrieval-augmented-generation-overview" target="_blank" rel="noopener noreferrer">Microsoft Azure AI Search：classic RAG 说明</a>：资料摘记将其列为应用组织检索与生成交接的依据。</li>
+</ul>
+</details>
+<footer>单文件 · 无外部字体、脚本、模型 API 或自动网络请求。资料链接仅在手动点击时打开。交互代码沿用 2026-10-07 已检查的原始案例；本次仅整理说明，未重新执行浏览器检查。见 <a href="https://github.com/BananaSoldier01/explain-clearly/blob/main/VERIFICATION.md">验证记录</a>。</footer>
+</main>
+<script>
+'use strict';
+(() => {
+  const byId = id => document.getElementById(id);
+  const stepButtons = [1, 2, 3, 4].map(n => byId('step-button-' + n));
+  const stepPanels = [1, 2, 3, 4].map(n => byId('step-detail-' + n));
+  function selectStep(number) {
+    stepButtons.forEach((button, index) => {
+      const selected = index === number - 1;
+      button.setAttribute('aria-pressed', String(selected));
+      stepPanels[index].hidden = !selected;
+    });
+  }
+  stepButtons.forEach((button, index) => {
+    button.disabled = false;
+    button.addEventListener('click', () => selectStep(index + 1));
+  });
+  const scenarios = {
+    both: {
+      faithful: {error: false, status: '演示：回答得到资料支持', answer: '这周六暂停开放。本周维修公告针对这个周六，说明常规开放安排在本周不适用。', why: '检索交出了 A 和 B；回答正确区分了常规安排与本周例外，使用了直接回答本周六问题的 B。', boundary: '只在这组虚构资料与演示假设下有依据，不能据此保证真实系统的正确率。'},
+      ignore: {error: true, status: '错误演示：忽略了新公告', answer: '这周六开门，旧版常规公告写着周六开放。', why: 'B 已经交给模型，却被忽略。这个组合把错误定位在生成阶段：找到资料没有迫使回答忠实使用它。', boundary: '即使这句话引用 A，也不能消除它与 B 的冲突。'},
+      invent: {error: true, status: '错误演示：加入无依据细节', answer: '这周六暂停开放，周日早上 9 点恢复开放。', why: '“这周六暂停开放”来自 B；“周日早上 9 点恢复”没有出现在任何提供的片段中。答案的一部分正确，不代表整段都有依据。', boundary: '资料包含周六安排，没有提供恢复时间。补出的时间是故意设计的错误演示。'}
+    },
+    old: {
+      faithful: {error: false, status: '演示：说明证据不足', answer: '旧版常规公告写周六开放，但没有本周安排，无法确认这周六是否开门。', why: '只找到 A，没有找到本周维修公告。回答保留了证据的时间范围，承认暂时不足以回答用户的问题。', boundary: '谨慎回答避免了无依据的确定结论，但还没有解决检索缺少本周信息的问题。'},
+      ignore: {error: true, status: '错误演示：把常规安排当本周安排', answer: '这周六开门。', why: '检索缺少本周维修公告，生成又没有保留旧公告的适用限制。“周六常规开放”不足以确认“这周六开放”。', boundary: '这个组合同时有检索缺口与回答过度确定的问题。'},
+      invent: {error: true, status: '错误演示：证据不足，还补了营业时间', answer: '这周六开门，营业到晚上 9 点。', why: 'A 不能确认本周六安排，也没有提供晚上 9 点的营业时间。生成阶段添加了资料没有的信息。', boundary: '营业时间是故意设计的无依据内容，不是展馆事实。'}
+    },
+    none: {
+      faithful: {error: false, status: '演示：没有证据，暂时无法回答', answer: '没有找到能确认本周六安排的资料，暂时无法回答是否开门。', why: '上下文里只有问题，没有合适片段。谨慎回答说明缺口，不能凭没有检索结果断定展馆开门或关门。', boundary: '没找到资料不代表展馆没有公告，也不代表某个答案已经被证实。'},
+      ignore: {error: true, status: '错误演示：没有证据仍作确定回答', answer: '这周六开门。', why: '没有合适片段支持这句话，回答却把开门写成确定事实。此处是故意设计的无依据回答。', boundary: '一个答案碰巧正确，也不代表这条生成过程得到检索资料支持。'},
+      invent: {error: true, status: '错误演示：没有证据，还补出优惠', answer: '这周六开门，门票半价。', why: '上下文没有开门安排，也没有门票优惠信息。两项结论都缺少检索证据。', boundary: '门票优惠是故意设计的虚构错误，不对应真实展馆。'}
+    }
+  };
+  const retrieval = byId('retrieval');
+  const generation = byId('generation');
+  function updateScenario() {
+    const scenario = scenarios[retrieval.value][generation.value];
+    const pieces = retrieval.value === 'both'
+      ? ['A · 旧版常规公告：周六开放。', 'B · 本周维修公告：这周六暂停开放。']
+      : retrieval.value === 'old'
+        ? ['A · 旧版常规公告：周六开放。']
+        : ['没有合适片段；上下文没有可用的检索证据。'];
+    const list = byId('context-list');
+    list.replaceChildren();
+    pieces.forEach(text => {
+      const item = document.createElement('li');
+      item.textContent = text;
+      list.appendChild(item);
+    });
+    byId('result-status').textContent = scenario.status;
+    byId('result-status').className = scenario.error ? 'status error' : 'status';
+    byId('answer').textContent = scenario.answer;
+    byId('why').textContent = scenario.why;
+    byId('boundary').textContent = scenario.boundary;
+  }
+  byId('scenario-controls').disabled = false;
+  retrieval.addEventListener('change', updateScenario);
+  generation.addEventListener('change', updateScenario);
+  byId('reset').addEventListener('click', () => {
+    retrieval.value = 'both';
+    generation.value = 'ignore';
+    selectStep(1);
+    updateScenario();
+  });
+  selectStep(1);
+  updateScenario();
+  byId('scenario-results').hidden = false;
+})();
+</script>
+</body>
+</html>
