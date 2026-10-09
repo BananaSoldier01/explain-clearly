@@ -10,7 +10,7 @@
 - **条件留得住**：通俗表达仍保留重要数字、适用条件、风险和不确定性。
 - **按需具象化**：文字够用就结束；图或 HTML 确实有帮助时，征得同意后继续生成。
 
-**[在线演示](https://bananasoldier01.github.io/explain-clearly/)** · [完整使用说明](USAGE.md) · [⭐ Star 支持](https://github.com/BananaSoldier01/explain-clearly)
+**[在线演示](https://bananasoldier01.github.io/explain-clearly/)** · [下载最新版](https://github.com/BananaSoldier01/explain-clearly/releases/latest) · [完整使用说明](USAGE.md) · [⭐ Star 支持](https://github.com/BananaSoldier01/explain-clearly)
 
 ## 安装和使用
 
