@@ -1,6 +1,6 @@
 interface:
   display_name: "explain-clearly"
-  short_description: "把日常解释请求变成清楚首答，按具体理解障碍建议图示或交互并等待授权"
-  default_prompt: "请用 $explain-clearly 处理这个理解问题，直接给清楚首答并保留关键条件，按需建议辅助呈现。"
+  short_description: "明确解释或回答涉及专业难点时，自然讲清原意；控制术语展开，按需辅助呈现"
+  default_prompt: "请用 $explain-clearly 处理这项任务，把影响理解的内容自然讲清，保留原意与条件，避免不必要的术语科普。"
 policy:
   allow_implicit_invocation: true

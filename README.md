@@ -36,25 +36,36 @@
 
 下面是表达方式示意，完整案例中保留了其他机制及适用条件。
 
-**专业式表述（示意）：**
+**专业式表述：**
 
 > 某 SDK 对可重试的失败采用 exponential backoff 与 jitter，并通过 token bucket 管理 retry quota。
 
-**用 Skill 指导后的易懂表达（示意）：**
+**用 Skill 指导后的易懂表达：**
 
 > 遇到可以重试的失败，先等一等；连续失败时，扩大可选择的等待时间。不同程序随机错开重试。额度像一笔预算，失败会消耗、成功能补回，用完就停止。
 
 [完整表达对照](examples/retry-style.md) · [真实 RAG 文字答复与续问](examples/rag-walkthrough.md)
 
-## 用 HTML 看清过程
+## 用图和交互 HTML 看清过程
 
-文字不容易讲清关系或变化时，可以把解释做成能操作的网页。下面用“展馆这周六开门吗？”这个问题演示 RAG：切换找到的公告和使用资料的方式，看清答案为什么会变。
+下面用 explain-clearly 自己的工作流程，展示它如何用图和交互 HTML 帮助理解。先看静态总图了解全貌，再打开网页，点击某一步查看说明。
 
-[![RAG 交互网页的既有截图：四步流程和公告情景对照](examples/screenshots/rag-1280.png)](https://bananasoldier01.github.io/explain-clearly/examples/rag.html)
+![explain-clearly 工作流程总图：根据语义或用户要求主动触发，讲清内容，并按理解需要继续](examples/screenshots/workflow-overview.png)
 
-点击图片即可体验。页面切换的是预写教学情景，不调用真实模型。
+**[打开交互演示：点击节点查看做法与示例](https://bananasoldier01.github.io/explain-clearly/examples/workflow.html)**
 
-[打开 RAG 演示](https://bananasoldier01.github.io/explain-clearly/examples/rag.html) · [体验自注意力关系图](https://bananasoldier01.github.io/explain-clearly/examples/attention.html)
+你直接提出问题或任务即可，不必点名 Skill，也不必特意说“请解释”。Agent 根据语义或用户要求主动应用解释指导；是否自动选用仍取决于所用 Agent 的支持。必要时再建议图解或网页，按对应同意继续。
+
+<details>
+<summary>观看流程演示（GIF，约 20 秒）</summary>
+
+下面播放一条示例路径，依次高亮节点并打开说明。上方静态图始终保留完整流程，方便随时查看。
+
+![explain-clearly 流程演示：沿示例路径查看节点与弹窗说明](examples/screenshots/workflow-demo.gif)
+
+</details>
+
+这份流程演示由 Agent 按 explain-clearly 自身的规则与图示、HTML 指导生成。图中的分支和弹窗是预写教学示意，不实时调用模型，也不是模型内部执行轨迹。
 
 ## 更多案例与资料
 
@@ -63,9 +74,10 @@
 | 真实文字解释、仍不懂时如何续答 | [RAG 完整对话示例](examples/rag-walkthrough.md) |
 | 多个重试术语怎样讲清楚 | [表达方式对照](examples/retry-style.md) · [真实答复](examples/text-retry.md) |
 | 图示怎样连接处理步骤 | [缓存流程图](examples/diagram.md) |
+| 应用于其他主题的 HTML 示例 | [RAG 教学演示](https://bananasoldier01.github.io/explain-clearly/examples/rag.html) · [自注意力教学演示](https://bananasoldier01.github.io/explain-clearly/examples/attention.html)（主题仅作案例） |
 | 带／不带 Skill 有哪些实际差别 | [完整同题对照](examples/text-comparison.md) |
 | 工作原理、参考与检查范围 | [Skill 规则](skills/explain-clearly/SKILL.md) · [验证记录](VERIFICATION.md) |
 
-示意与实测分别标注，具体结果见记录；不承诺每次都优于未使用 Skill。需要理解术语、原理、方案或结果时使用，纯翻译、润色和只交付代码按原任务处理。
+示意与实测分别标注，具体结果见记录；不承诺每次都优于未使用 Skill。明确询问含义、原理，或普通回答涉及影响理解的专业内容时应用；简单直接、纯翻译、润色和只交付代码等按原任务处理。
 
 采用 [MIT 许可证](LICENSE)。中文表达借鉴 [ISO 24495-1](https://www.iso.org/standard/78907.html) 与 [ASD-STE100](https://www.asd-ste100.org/STE_faq.html) 的原则，不宣称标准认证。当前覆盖文字、图解和交互 HTML。
