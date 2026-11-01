@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""此包的文件、精简元数据、Python语法及Markdown相对文件链接检查；非通用Skill认证。"""
+"""此包的文件、精简元数据、Python语法、Markdown相对文件链接及模板 HTML 一致性检查；非通用Skill认证。"""
 import ast
 from pathlib import Path
 import re
@@ -24,10 +24,19 @@ def check():
     for name in REQUIRED:
         if not (ROOT / name).is_file() or not (ROOT / name).stat().st_size:
             errors.append('缺失或空文件：' + name)
+    interactive = ROOT / 'examples/interactive.html'
+    template = ROOT / 'skills/explain-clearly/assets/explainer.html'
+    if interactive.is_file() and template.is_file() and interactive.read_bytes() != template.read_bytes():
+        errors.append(
+            'examples/interactive.html 与 skills/explain-clearly/assets/explainer.html 内容不一致'
+        )
     skill = (ROOT / 'skills/explain-clearly/SKILL.md').read_text()
-    front = re.match(r'^---\nname: ([a-z0-9-]+)\ndescription: ([^\n]+)\n---\n', skill)
-    if not front or front[1] != 'explain-clearly' or len(front[2]) > 1024:
-        errors.append('入口的两字段frontmatter格式或值不符')
+    front = re.match(
+        r'^---\nname: ([a-z0-9-]+)\ndescription: ([^\n]+)\nversion: ([0-9]+\.[0-9]+\.[0-9]+)\n---\n',
+        skill,
+    )
+    if not front or front[1] != 'explain-clearly' or len(front[2]) > 1024 or front[3] != '0.1.2':
+        errors.append('入口 frontmatter 的 name、description 或 version 不符')
     ui = (ROOT / 'skills/explain-clearly/agents/openai.yaml').read_text()
     for field in ('display_name', 'short_description', 'default_prompt'):
         found = re.search(r'^  ' + field + r': "([^"\n]+)"$', ui, re.M)
@@ -68,5 +77,5 @@ if __name__ == '__main__':
     for finding in findings:
         print(finding)
     if not findings:
-        print('PASS：包结构、当前元数据格式、Python语法、Markdown本地文件链接。')
+        print('PASS：包结构、当前元数据格式、Python语法、Markdown本地文件链接、模板 HTML 一致。')
     raise SystemExit(bool(findings))

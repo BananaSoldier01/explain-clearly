@@ -10,11 +10,11 @@
 - **条件留得住**：通俗表达仍保留重要数字、适用条件、风险和不确定性。
 - **按需具象化**：文字够用就结束；图或 HTML 确实有帮助时，征得同意后继续生成。
 
-**[在线演示](https://bananasoldier01.github.io/explain-clearly/)** · [下载最新版](https://github.com/BananaSoldier01/explain-clearly/releases/latest) · [完整使用说明](USAGE.md) · [⭐ Star 支持](https://github.com/BananaSoldier01/explain-clearly)
+**[在线演示](https://bananasoldier01.github.io/explain-clearly/)** · [下载最新版](https://github.com/BananaSoldier01/explain-clearly/releases/latest)（当前正式版 **v0.1.2**） · [完整使用说明](USAGE.md) · [⭐ Star 支持](https://github.com/BananaSoldier01/explain-clearly)
 
 ## 安装和使用
 
-把下面这段发给 **Codex、Claude Code、WorkBuddy** 等 Agent，让它按当前版本支持的方式安装：
+把下面这段发给 **Codex、Claude Code、WorkBuddy、Cursor** 等 Agent，让它按当前版本支持的方式安装：
 
 > 请帮我安装 explain-clearly Skill：
 > 仓库：https://github.com/BananaSoldier01/explain-clearly
@@ -28,7 +28,9 @@
 
 > 请使用 explain-clearly 解释：RAG 是什么？为什么找到了资料还会答错？
 
-[各 Agent 的安装入口与完整指南](USAGE.md)。
+[各 Agent 的安装入口与完整指南](USAGE.md)。Cursor 的目录写法见该说明，依据公开文档，未在 Cursor 上做统一实测。
+
+[Release 下载包](https://github.com/BananaSoldier01/explain-clearly/releases/latest)和完整仓库包含使用说明与演示。日常安装只复制 `skills/explain-clearly/`，或在仓库根运行 [`scripts/pack-skill.sh`](scripts/pack-skill.sh) 打出精简包。精简包不含 `examples/screenshots` 和 showcase 大图。
 
 ## 看一个文字效果
 
