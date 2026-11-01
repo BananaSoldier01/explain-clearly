@@ -5,7 +5,7 @@
 ## 先看边界
 
 - 两条入口保持不变：用户明确要理解；或普通回答里出现可能不熟悉、又影响理解的专业内容。术语按读者背景展开，避免逐词科普。
-- 图和交互 HTML 先说明能看清什么，得到对应同意后再生成。只同意图，不等于同意 HTML。
+- 用户明确要求图或交互 HTML 时，直接按指定形式交付。若由 Agent 建议，先说明能帮用户看清什么，征得同意再生成。换成另一种形式需另行确认。
 - 改这些规则前，请先开 Issue，附上具体失败例子。不要顺手放宽或收紧。
 - 单次观察不能写成跨 Agent 稳定触发或理解增益。已有范围见 [验证记录](VERIFICATION.md)。
 
@@ -19,6 +19,8 @@ python3 -m unittest discover -s tests -v
 ```
 
 `examples/interactive.html` 与 `skills/explain-clearly/assets/explainer.html` 须保持内容一致。日常安装包用 `./scripts/pack-skill.sh` 生成，说明见 [USAGE.md](USAGE.md)。
+
+增加安装时需要的文件时，把路径同时加入打包脚本的文件清单和 `tests/check_package.py` 的 `REQUIRED`。打包测试会核对 ZIP 中的文件名和内容。
 
 ## 反馈
 

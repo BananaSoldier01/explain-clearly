@@ -39,9 +39,9 @@
 - **Codex**：官方文档说明本地 Skills 发现目录包括项目 `.agents/skills/` 和用户 `~/.agents/skills/`，也支持让内置 Skill Installer 从其他仓库安装。CLI／IDE 可通过技能选择器或 `$` 显式调用。[OpenAI 官方说明](https://learn.chatgpt.com/docs/build-skills)。
 - **Claude Code**：官方文档提供用户级 `~/.claude/skills/` 和项目级 `.claude/skills/`，可用 `/explain-clearly` 调用；云端与其他运行方式的发现范围以文档为准。[Claude Code 官方说明](https://code.claude.com/docs/en/skills)。
 - **WorkBuddy**：腾讯云的 WorkBuddy Enterprise 文档提供技能导入、启用和对话召唤入口；需要导入技能包时，让 Agent 先准备适配的包并完成可自动执行的部分。其他版本以当前产品支持的方式为准。[腾讯云官方说明](https://cloud.tencent.com/document/product/1831/134432)。
-- **Cursor**：把 `skills/explain-clearly/` 复制到用户级 `~/.cursor/skills/` 或项目 `.cursor/skills/`。公开文档还列出 `.agents/skills/` 与 `~/.agents/skills/`。详见 [Cursor](#cursor)。**文档推导、未在 Cursor 上做统一实测。**
+- **Cursor**：目录和调用方式见下文的 [Cursor 安装说明](#cursor)。
 
-上面的提示词把安装操作交给 Agent，不代表每个版本都能全自动完成。若产品要求你确认、导入或重启，按安装结果完成那一步。当前没有对 Codex、Claude Code、WorkBuddy 的完整安装、自动匹配或跨轮持续做统一实测。Cursor 的目录只按公开文档转述，未在 Cursor 上做统一实测。
+若产品要求你确认、导入或重启，按安装结果完成那一步。目前没有对这些宿主的完整安装、自动匹配或跨轮持续做统一实测。
 
 ## Cursor
 
@@ -58,7 +58,7 @@
 
 常见放置是 `~/.cursor/skills/explain-clearly/`，或项目内 `.cursor/skills/explain-clearly/`。同一文档还写到会兼容 Claude 与 Codex 的技能目录（`.claude/skills/`、`.codex/skills/` 以及对应的用户级目录），并可用 `/` 菜单按技能名调用。产品改版时以该文档当时的说明为准。
 
-**文档推导、未在 Cursor 上做统一实测。** 本节没有 Cursor 上的安装、自动选用或跨轮持续记录，不能据此声称 Cursor 已验证可用。
+以上为 Cursor 公开文档列出的本地安装方式，尚未在 Cursor 上做统一实测。
 
 ## 确认是否装好、是否调用
 
@@ -74,4 +74,4 @@
 
 路径不在工作目录中时，提供这份文件的完整路径。此方法只确认这次文件加载，不代表已经安装或加入自动发现目录。
 
-本地 Codex CLI 检查曾观察到读取 `SKILL.md` 后作答，也出现过未读取而直接作答的请求；因此要通过实际记录确认。[验证范围](VERIFICATION.md)。
+本地 Codex CLI 检查曾观察到读取 `SKILL.md` 后作答，也出现过未读取而直接作答的请求；因此要通过实际记录确认。[仓库中的验证记录](https://github.com/BananaSoldier01/explain-clearly/blob/main/VERIFICATION.md)。

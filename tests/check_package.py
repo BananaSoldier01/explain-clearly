@@ -32,11 +32,17 @@ def check():
         )
     skill = (ROOT / 'skills/explain-clearly/SKILL.md').read_text()
     front = re.match(
-        r'^---\nname: ([a-z0-9-]+)\ndescription: ([^\n]+)\nversion: ([0-9]+\.[0-9]+\.[0-9]+)\n---\n',
+        r'^---\nname: ([a-z0-9-]+)\ndescription: ([^\n]+)\n'
+        r'metadata:\n  version: "([0-9]+\.[0-9]+\.[0-9]+)"\n---\n',
         skill,
     )
-    if not front or front[1] != 'explain-clearly' or len(front[2]) > 1024 or front[3] != '0.1.2':
-        errors.append('入口 frontmatter 的 name、description 或 version 不符')
+    if not front or front[1] != 'explain-clearly' or len(front[2]) > 1024:
+        errors.append('入口 frontmatter 的 name、description 或 metadata.version 格式不符')
+    else:
+        notes = (ROOT / 'RELEASE_NOTES.md').read_text()
+        latest = re.search(r'^## v([0-9]+\.[0-9]+\.[0-9]+)\b', notes, re.M)
+        if not latest or front[3] != latest[1]:
+            errors.append('metadata.version 与最新发布说明的版本号不一致')
     ui = (ROOT / 'skills/explain-clearly/agents/openai.yaml').read_text()
     for field in ('display_name', 'short_description', 'default_prompt'):
         found = re.search(r'^  ' + field + r': "([^"\n]+)"$', ui, re.M)
