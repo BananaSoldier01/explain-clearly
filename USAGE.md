@@ -2,7 +2,7 @@
 
 ## 把安装交给 Agent
 
-在你使用的 Codex、Claude Code、WorkBuddy 等 Agent 中发送：
+在你使用的 Codex、Claude Code、WorkBuddy、Cursor 等 Agent 中发送：
 
 > 请帮我安装 explain-clearly Skill：
 > 仓库：https://github.com/BananaSoldier01/explain-clearly
@@ -13,6 +13,14 @@
 > 完成后验证 explain-clearly 能被发现或调用，告诉我如何使用，以及是否需要重启或新开对话。若某一步必须由我手动操作，请先完成你能做的部分，再说明具体操作。
 
 安装的是仓库中的 `skills/explain-clearly/` 整个目录。README、演示和项目测试不用加入每次读取的 Skill 上下文。
+
+完整仓库和 GitHub Release 含案例与演示。日常安装可以只复制 `skills/explain-clearly/`，或在仓库根运行：
+
+```sh
+./scripts/pack-skill.sh
+```
+
+默认写出 `dist/explain-clearly-slim.zip`。包内有该 Skill 目录、`LICENSE`、本说明和一份安装要点，不含 `examples/screenshots` 与 showcase 大图。
 
 ## 安装完成后怎么用
 
@@ -31,8 +39,26 @@
 - **Codex**：官方文档说明本地 Skills 发现目录包括项目 `.agents/skills/` 和用户 `~/.agents/skills/`，也支持让内置 Skill Installer 从其他仓库安装。CLI／IDE 可通过技能选择器或 `$` 显式调用。[OpenAI 官方说明](https://learn.chatgpt.com/docs/build-skills)。
 - **Claude Code**：官方文档提供用户级 `~/.claude/skills/` 和项目级 `.claude/skills/`，可用 `/explain-clearly` 调用；云端与其他运行方式的发现范围以文档为准。[Claude Code 官方说明](https://code.claude.com/docs/en/skills)。
 - **WorkBuddy**：腾讯云的 WorkBuddy Enterprise 文档提供技能导入、启用和对话召唤入口；需要导入技能包时，让 Agent 先准备适配的包并完成可自动执行的部分。其他版本以当前产品支持的方式为准。[腾讯云官方说明](https://cloud.tencent.com/document/product/1831/134432)。
+- **Cursor**：目录和调用方式见下文的 [Cursor 安装说明](#cursor)。
 
-上面的提示词把安装操作交给 Agent，不代表每个版本都能全自动完成。若产品要求你确认、导入或重启，按安装结果完成那一步。当前没有对这三个产品的完整安装、自动匹配或跨轮持续做统一实测。
+若产品要求你确认、导入或重启，按安装结果完成那一步。目前没有对这些宿主的完整安装、自动匹配或跨轮持续做统一实测。
+
+## Cursor
+
+把仓库里的 `skills/explain-clearly/` 整个目录复制到 Cursor 的技能目录，文件夹名保持 `explain-clearly`，参考、模板和脚本一并保留。
+
+[Cursor Agent Skills 文档](https://cursor.com/docs/skills)（[中文](https://cursor.com/cn/docs/skills)）当前写明，技能从这些位置自动加载：
+
+| 位置 | 范围 |
+| --- | --- |
+| `~/.cursor/skills/` | 用户级，本机全局 |
+| `.cursor/skills/` | 项目级 |
+| `~/.agents/skills/` | 用户级，本机全局 |
+| `.agents/skills/` | 项目级 |
+
+常见放置是 `~/.cursor/skills/explain-clearly/`，或项目内 `.cursor/skills/explain-clearly/`。同一文档还写到会兼容 Claude 与 Codex 的技能目录（`.claude/skills/`、`.codex/skills/` 以及对应的用户级目录），并可用 `/` 菜单按技能名调用。产品改版时以该文档当时的说明为准。
+
+以上为 Cursor 公开文档列出的本地安装方式，尚未在 Cursor 上做统一实测。
 
 ## 确认是否装好、是否调用
 
@@ -48,4 +74,4 @@
 
 路径不在工作目录中时，提供这份文件的完整路径。此方法只确认这次文件加载，不代表已经安装或加入自动发现目录。
 
-本地 Codex CLI 检查曾观察到读取 `SKILL.md` 后作答，也出现过未读取而直接作答的请求；因此要通过实际记录确认。[验证范围](VERIFICATION.md)。
+本地 Codex CLI 检查曾观察到读取 `SKILL.md` 后作答，也出现过未读取而直接作答的请求；因此要通过实际记录确认。[仓库中的验证记录](https://github.com/BananaSoldier01/explain-clearly/blob/main/VERIFICATION.md)。
