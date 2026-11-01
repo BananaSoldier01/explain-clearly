@@ -48,7 +48,7 @@
 </section>
 <section class="card" aria-labelledby="result-title" id="results" hidden>
 <h2 id="result-title">2. 看模型结果</h2>
-<p class="hint">当前条件下的模型平均延迟（模拟）。显示最多一位小数，按整数比例四舍五入；比较方向使用未舍入值。</p>
+<p class="hint">当前条件下的模型平均延迟（模拟）。平均耗时和差值最多显示两位小数。相对变化通常显示一位小数，小于 0.1% 时最多显示三位。</p>
 <div role="status" aria-live="polite" aria-atomic="true">
 <p class="number"><span id="mean">—</span> <span class="unit">毫秒</span></p>
 <p id="comparison">等待计算</p>
@@ -104,15 +104,18 @@
       byId(input.id + '-value').value = input.value;
       input.setAttribute('aria-valuetext', input.value + unit);
     }
-    byId('mean').textContent = formatRatio(meanUnits, 100, 1, true);
+    const meanText = formatRatio(meanUnits, 100, 2, true);
+    byId('mean').textContent = meanText;
     const difference = baselineUnits - meanUnits;
+    const percentNumerator = Math.abs(difference) * 100;
+    const percentDigits = percentNumerator * 10 < baselineUnits ? 3 : 1;
     byId('comparison').textContent = difference === 0
       ? '与同耗时、40% 命中率的基准相同。'
       : '比同耗时、40% 命中率的基准' + (difference > 0 ? '减少 ' : '增加 ')
-        + formatRatio(Math.abs(difference), 100, 1, true) + ' 毫秒（' + (difference > 0 ? '下降 ' : '上升 ')
-        + formatRatio(Math.abs(difference) * 100, baselineUnits, 1, true) + '%）。';
-    byId('base-number').textContent = formatRatio(baselineUnits, 100, 1, true) + ' 毫秒';
-    byId('current-number').textContent = formatRatio(meanUnits, 100, 1, true) + ' 毫秒';
+        + formatRatio(Math.abs(difference), 100, 2, true) + ' 毫秒（' + (difference > 0 ? '下降 ' : '上升 ')
+        + formatRatio(percentNumerator, baselineUnits, percentDigits, true) + '%）。';
+    byId('base-number').textContent = formatRatio(baselineUnits, 100, 2, true) + ' 毫秒';
+    byId('current-number').textContent = meanText + ' 毫秒';
     byId('base-bar').style.width = (baseline / 500 * 100) + '%';
     byId('current-bar').style.width = (mean / 500 * 100) + '%';
     byId('insight').textContent = f < s
