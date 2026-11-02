@@ -25,27 +25,37 @@ class Document(HTMLParser):
         self.css = []
         self.js = []
         self.inline_tag = None
+        self.svg_context = []  # svg 进入 SVG，foreignObject、desc、title 的子元素按 HTML 处理。
         self.feed(text)
         self.close()
 
     def handle_starttag(self, tag, attributes):
         attrs = dict(attributes)
+        if tag == 'svg':
+            self.svg_context.append(tag)
+        in_svg = bool(self.svg_context) and self.svg_context[-1] == 'svg'
+        if in_svg and tag in ('foreignobject', 'desc', 'title'):
+            self.svg_context.append(tag)
         if 'id' in attrs:
             self.ids.append(attrs['id'])
         if tag in ('style', 'script'):
             self.inline_tag = tag
         if attrs.get('style'):
             self.css.append(attrs['style'])
-        # href 在普通链接中是导航；样式表等 link 是运行资源。
+        # SVG 图片、符号实例与脚本会加载 href；普通超链接仅在点击时导航。
         if tag == 'base':
             self.refs.append(('UNSUPPORTED_BASE', True))
-        if attrs.get('href'):
-            rel = set(attrs.get('rel', '').lower().split())
-            runtime = tag == 'link' and bool(rel & {
+        svg_resource = in_svg and tag in ('image', 'feimage', 'use', 'script')
+        href = attrs.get('href')
+        if (svg_resource or (in_svg and tag == 'a')) and 'href' not in attrs:
+            href = attrs.get('xlink:href')
+        if href:
+            rel = set((attrs.get('rel') or '').lower().split())
+            runtime = svg_resource or (tag == 'link' and bool(rel & {
                 'stylesheet', 'preload', 'modulepreload', 'prefetch',
                 'preconnect', 'dns-prefetch', 'icon', 'manifest',
-            })
-            self.refs.append((attrs['href'], runtime))
+            }))
+            self.refs.append((href, runtime))
         for key in ('src', 'poster', 'data', 'background'):
             if attrs.get(key):
                 self.refs.append((attrs[key], True))
@@ -72,10 +82,11 @@ class Document(HTMLParser):
 
     def handle_startendtag(self, tag, attrs):
         self.handle_starttag(tag, attrs)
-        if tag in ('style', 'script'):
-            self.inline_tag = None
+        self.handle_endtag(tag)
 
     def handle_endtag(self, tag):
+        if self.svg_context and self.svg_context[-1] == tag:
+            self.svg_context.pop()
         if tag == self.inline_tag:
             self.inline_tag = None
 

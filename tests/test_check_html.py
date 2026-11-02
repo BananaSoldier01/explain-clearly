@@ -59,6 +59,39 @@ class HtmlChecks(unittest.TestCase):
     def test_external_script(self):
         self.assertIn('external-runtime', self.codes('<script src="https://cdn.example/a.js"></script>'))
 
+    def test_svg_runtime_references(self):
+        for tag in ('image', 'use', 'feImage', 'script'):
+            for attr in ('href', 'xlink:href'):
+                with self.subTest(tag=tag, attr=attr):
+                    html = f'<svg><{tag} {attr}="//cdn.example/icon.svg#arrow"></{tag}></svg>'
+                    self.assertEqual(self.codes(html), {'external-runtime'})
+
+    def test_svg_local_resources_and_fragments(self):
+        html = ('<svg><g id="shape"></g><use href="#shape"/>'
+                '<image xlink:href="picture.svg"/><image href="data:image/png;base64,AAAA"/></svg>')
+        self.assertEqual(self.codes(html, {'picture.svg': '<svg/>'}), set())
+        for ref, code in (('gone.svg#arrow', 'missing-local'), ('#absent', 'missing-fragment'),
+                          ('../outside.svg', 'outside-root')):
+            with self.subTest(ref=ref):
+                self.assertEqual(self.codes(f'<svg><use xlink:href="{ref}"/></svg>'), {code})
+
+    def test_svg_navigation_and_href_precedence(self):
+        html = ('<svg><a href="https://example.com/">资料</a>'
+                '<a xlink:href="https://example.com/">资料</a><g id="shape"></g>'
+                '<use href="#shape" xlink:href="https://cdn.example/unused.svg#arrow"/>'
+                '<use href="" xlink:href="https://cdn.example/unused.svg#arrow"/></svg>')
+        self.assertEqual(self.codes(html), set())
+        self.assertEqual(self.codes('<svg><a xlink:href="#absent">链接</a></svg>'),
+                         {'missing-fragment'})
+
+    def test_svg_context_stops_and_resumes(self):
+        script = '<script href="https://cdn.example/unused.js"></script>'
+        self.assertEqual(self.codes('<svg/>' + script), set())
+        self.assertEqual(self.codes('<svg><foreignObject>' + script + '</foreignObject></svg>'), set())
+        self.assertEqual(self.codes('<svg><foreignObject><svg><image href="//cdn.example/i"/>'
+                                    '</svg></foreignObject></svg>'), {'external-runtime'})
+        self.assertEqual(self.codes('<svg><foreignObject/>' + script + '</svg>'), {'external-runtime'})
+
     def test_protocol_relative_style(self):
         self.assertIn('external-runtime', self.codes('<link rel="stylesheet" href="//cdn.example/a.css">'))
 
